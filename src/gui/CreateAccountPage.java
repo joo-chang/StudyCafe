@@ -12,6 +12,7 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import Network.Mail;
 import database.DB;
 import models.Member;
 
@@ -25,6 +26,7 @@ public class CreateAccountPage extends DB {
 //   private JRadioButton radioB;
 //   private JRadioButton radioG;
 	private String sex;
+	int temporarily_number;
 
 	public CreateAccountPage() {
       initialize();
@@ -184,8 +186,18 @@ public class CreateAccountPage extends DB {
                   Member member = new Member(name_tf.getText(), id_tf.getText(), password_pf.getText(),
                         birth_tf.getText(),sex, email_tf.getText(), phone_tf.getText());
                   db.member_Insert(member);
-                  JOptionPane.showMessageDialog(null, "회원 가입이 완료되었습니다.");
-                  creatAccountFrame.setVisible(false);
+					System.out.println(sex);
+					temporarily_number=(int) Math.floor(Math.random()*10000+1);
+					System.out.println(temporarily_number+"임시 인증번호");
+					Mail.mail(email_tf.getText(), temporarily_number);
+					String check_email=JOptionPane.showInputDialog("메일에 전송된 인증번호를 입력하세요");
+					if(Integer.parseInt(check_email)==temporarily_number) {
+					JOptionPane.showMessageDialog(null, "회원 가입이 완료되었습니다.");
+					creatAccountFrame.setVisible(false);
+					}else {
+						JOptionPane.showMessageDialog(null, "인증번호가 틀렸습니다.");
+						db.delete_member(id_tf.getText());
+					}
                }
             }
          }

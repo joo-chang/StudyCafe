@@ -13,11 +13,11 @@ import javax.mail.internet.MimeMessage;
 import javax.swing.JApplet;
 
 public class Mail {
-   public static void mail(String email,String confirm_number) {
+   public static void mail(String email,int temporarily_number) {
       String host="smtp.naver.com";
       final String user = "dudqls1441@naver.com"; //발신자의 메일계정과 비밀번호 설정
       final String password = "choco8421!";
-      System.out.println(email+confirm_number);
+      System.out.println(email+temporarily_number);
       Properties prop = new Properties(); //property에 smtp 서버 정보를 설정
       prop.put("mail.smtp.host", host);
       prop.put("mail.smtp.port", 587);
@@ -35,7 +35,7 @@ public class Mail {
          message.setFrom(new InternetAddress(user));
          message.addRecipient(Message.RecipientType.TO, new InternetAddress(email));
          message.setSubject("인증번호 발송");
-         message.setText("Studycafe 인증번호는 "+confirm_number+" 입니다");
+         message.setText("Studycafe 인증번호는 "+temporarily_number+" 입니다");
          Transport.send(message);
          System.out.println("메세지 전송 완료");
          

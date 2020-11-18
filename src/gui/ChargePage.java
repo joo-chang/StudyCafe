@@ -3,6 +3,7 @@ package gui;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Vector;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JButton;
@@ -22,13 +23,14 @@ import models.Payment;
 import models.Price;
 
 public class ChargePage extends DB {
-	Send_SMS ss= new Send_SMS();
+	Send_SMS ss = new Send_SMS();
 	private int fee;
 	private JFrame chargeFrame;
 	JLabel fee_lb = new JLabel("총     계 : " + fee + " 원");
 	Price price = new Price();
 	Confirmation confirmation = new Confirmation();
 	Member member = new Member();
+	Vector v;
 
 	ChargePage() {
 
@@ -249,23 +251,26 @@ public class ChargePage extends DB {
 					payment_Insert(payment);
 					c_joincheck(user_Id);
 					confirmation.setConfirm_number(confirmation.excuteNumber());
-					confirm_number=confirmation.getConfirm_number();
+					confirm_number = confirmation.getConfirm_number();
 					confirmation.setM_id(user_Id);
 					confirmation.setUser_time(confirmation.getUser_time() + price.getTime());
-				
+
 					if (flag1) {
 						confirmation_Update(confirmation);
 					} else {
 						confirmation_Insert(confirmation);
-					}	
-					Mail.mail(dbmail(user_Id), confirm_number);
+					}
 					System.out.println(confirm_number);
 					select_Confirm_n(user_Id);
-					//ss.sendsms("01084219777", confirm_number);
-					
-					
-//					JOptionPane.showMessageDialog(null, "결제가 완료되었습니다. 인증번호 : "+confirm_number);
-					new ReceiptPage();
+					v = print_receipt();
+					String name = (String) v.get(0);
+					String date = (String) v.get(1);
+					String buytime = (String) v.get(2);
+					String remaintime = (String) v.get(3);
+					String confirmnumber = (String) v.get(4);
+					String price = (String) v.get(5);
+					ss.sendsms(phone(user_Id),name,date,buytime,remaintime,confirmnumber,price);
+					System.out.println("V=" + v);
 					chargeFrame.setVisible(false);
 				}
 			}

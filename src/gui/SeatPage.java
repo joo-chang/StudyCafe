@@ -399,20 +399,22 @@ public class SeatPage extends DB {
 	}
 
 	public void ing(){
-		seat_ing();
-		for (int i = 0; i < 31; i++) {
-			for (int j = 0; j < ing.size(); j++) {
-				if (jbtn[i].getText().equals(ing.get(j)+"")) {
-					if(jbtn[i].member.getSex().equals("남자")) {//번호로 검색해서 아이디를 가져오고 그 아이디를 db에 검색해서 성별을 가져와야됨
-						jbtn[i].setBackground(Color.blue);
-					}else {
-						jbtn[i].setBackground(Color.red);
-					}
-					jbtn[i].setEnabled(false);
-				}
-			}
-		}
-	}
+	      seat_ing();
+	      for (int i = 0; i < 31; i++) {
+	         for (int j = 0; j < ing.size(); j++) {
+	            if (jbtn[i].getText().equals(ing.get(j)+"")) {
+	               select_Id(jbtn[i].getText());
+	               seat_name(id);
+	               if(sex.equals("남자")) {//번호로 검색해서 아이디를 가져오고 그 아이디를 db에 검색해서 성별을 가져와야됨
+	                  jbtn[i].setBackground(Color.blue);
+	               }else {
+	                  jbtn[i].setBackground(Color.red);
+	               }
+	               jbtn[i].setEnabled(false);
+	            }
+	         }
+	      }
+	   }
 
 	public void total_method(JButton btn, String user_Id) {
 		check_userseat(user_Id);

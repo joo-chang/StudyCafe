@@ -12,17 +12,16 @@ import models.Confirmation;
 import models.Member;
 import models.Payment;
 import models.Price;
-import models.Receipt;
-import models.Sale;
 import models.Seat;
 
 public class DB {
 	private Connection conn; // 2. Connection 객체를 생성
 	public boolean flag = false;
 	public boolean flag1 = false;
-	public boolean flag2=false;
+	public boolean flag2 = false;
 	public boolean confirm = false;
 	public String confirm_number;
+	public String id, sex;
 	public Vector ing = new Vector();
 
 	public DB() {
@@ -41,17 +40,17 @@ public class DB {
 
 	public void member_Insert(Member member) {
 		String sql = "insert into members values(?,?,?,?,?,?,?)";
-	      try {
-	         PreparedStatement pmt = conn.prepareStatement(sql);
-	         pmt.setString(1, member.getName());
-	         pmt.setString(2, member.getId());
-	         pmt.setString(3, member.getPassword());
-	         pmt.setString(4, member.getBirthday());
-	         pmt.setString(5,member.getSex());
-	         pmt.setString(6, member.getEmail());    
-	         pmt.setString(7, member.getPhone());
-	         pmt.executeUpdate();
-	         pmt.close();
+		try {
+			PreparedStatement pmt = conn.prepareStatement(sql);
+			pmt.setString(1, member.getName());
+			pmt.setString(2, member.getId());
+			pmt.setString(3, member.getPassword());
+			pmt.setString(4, member.getBirthday());
+			pmt.setString(5, member.getSex());
+			pmt.setString(6, member.getEmail());
+			pmt.setString(7, member.getPhone());
+			pmt.executeUpdate();
+			pmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -108,6 +107,24 @@ public class DB {
 
 	}
 
+	public void select_Id(String seatnumber) {
+		try {
+			Statement stm = conn.createStatement();
+			String sql = "select * from seat";
+			ResultSet rs = stm.executeQuery(sql);
+
+			while (rs.next()) {
+				if (seatnumber.equals(rs.getInt(1) + "")) {
+					id = rs.getString(2);
+				}
+			}
+			rs.close();
+			stm.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public Member check(String id, String passwd) { // 아이디랑 비밀번호가 일치하는가 - 로그인할때
 		Member member = new Member();
 		try {
@@ -150,6 +167,22 @@ public class DB {
 		}
 
 		return member;
+	}
+
+	public void seat_name(String id) { // 아이디 검색해서 이름 가져오기
+		try {
+			Statement stm = conn.createStatement();
+			String sql = "select * from members";
+			ResultSet rs = stm.executeQuery(sql);
+			while (rs.next()) {
+				if (rs.getString(2).equals(id)) {
+					sex = rs.getNString(5);
+				}
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Confirmation select_Usertime(String id) { // 아이디 검색해서 이름 가져오기 - confirmation에 있는 튜플 사용할때
@@ -289,15 +322,15 @@ public class DB {
 		}
 		return confirm;
 	}
-	
-	public boolean seat_check(String a) { 
+
+	public boolean seat_check(String a) {
 		try {
 			Statement stm = conn.createStatement();
 			String sql = "select * from seat";
 			ResultSet rs = stm.executeQuery(sql);
 			while (rs.next()) {
 				if (rs.getString(1).equals(a)) {
-					flag2=rs.getBoolean(3);
+					flag2 = rs.getBoolean(3);
 				}
 			}
 		} catch (SQLException e) {
@@ -305,6 +338,7 @@ public class DB {
 		}
 		return flag2;
 	}
+
 	public Vector seat_ing() {
 		try {
 			Statement stm = conn.createStatement();
@@ -321,7 +355,7 @@ public class DB {
 		}
 		return ing;
 	}
-	
+
 	public Vector print_sale_byDate(String Date) {
 		@SuppressWarnings("rawtypes")
 		Vector saledata = new Vector();
@@ -332,9 +366,9 @@ public class DB {
 					+ "where payment.time=price.time and members.id =payment.m_id and confirmation.m_id=members.id and payment.pay_day like '"
 					+ Date + "%'  order by payment.pay_day";
 			PreparedStatement pmt = conn.prepareStatement(sql);
-//			pmt.setString(1, Date);
+//         pmt.setString(1, Date);
 			System.out.println(Date);
-//	         System.out.println(keyword);
+//            System.out.println(keyword);
 			Statement stm = conn.createStatement();
 			ResultSet rs = pmt.executeQuery(sql);
 
@@ -392,45 +426,45 @@ public class DB {
 
 	}
 
-	public Vector print_receipt() {
+	 public Vector print_receipt() {
 
-		Vector data = new Vector();
+	      Vector data = new Vector();
+	      
+	      Vector row = new Vector();
 
-		try {
-			String sql = "select distinct members.name as 회원이름 , DATE_FORMAT(payment.pay_day, '%Y-%m-%d') as 결제일, payment.time as 충전시간 , confirmation.user_time as 남은시간, confirmation.confirm_number as 인증번호, price.price as '결제 금액'\r\n"
-					+ "from payment,price,members,confirmation\r\n"
-					+ "where payment.time=price.time and members.id = payment.m_id and members.id = confirmation.m_id  \r\n"
-					+ "order by 결제일  desc limit 1";
-			PreparedStatement pmt = conn.prepareStatement(sql);
-//			pmt.setString(1, m_id);
-			ResultSet rs = pmt.executeQuery();
+	      try {
+	         String sql = "select distinct members.name as 회원이름 , DATE_FORMAT(payment.pay_day, '%Y-%m-%d') as 결제일, payment.time as 충전시간 , confirmation.user_time as 남은시간, confirmation.confirm_number as 인증번호, price.price as '결제 금액'\r\n"
+	               + "from payment,price,members,confirmation\r\n"
+	               + "where payment.time=price.time and members.id = payment.m_id and members.id = confirmation.m_id  \r\n"
+	               + "order by pay_number  desc limit 1";
+	         PreparedStatement pmt = conn.prepareStatement(sql);
+//	         pmt.setString(1, m_id);
+	         ResultSet rs = pmt.executeQuery();
 
-			while (rs.next()) {
-				String name = rs.getString(1);
-				String pay_day = rs.getString(2);
-				String buy_time = rs.getString(3);
-				String rest_time = rs.getString(4);
-				String confirm_number = rs.getString(5);
-				String price = rs.getString(6);
+	         while (rs.next()) {
+	            String name = rs.getString(1);
+	            String pay_day = rs.getString(2);
+	            String buy_time = rs.getString(3);
+	            String rest_time = rs.getString(4);
+	            String confirm_number = rs.getString(5);
+	            String price = rs.getString(6);
 
-				Vector row = new Vector();
-				row.add(name);
-				row.add(pay_day);
-				row.add(buy_time);
-				row.add(rest_time);
-				row.add(confirm_number);
-				row.add(price);
+	            row.add(name);
+	            row.add(pay_day);
+	            row.add(buy_time);
+	            row.add(rest_time);
+	            row.add(confirm_number);
+	            row.add(price);
+	            data.add(row);
+	         }
 
-				data.add(row);
-			}
+	      } catch (SQLException e) {
+	         // TODO Auto-generated catch block
+	         e.printStackTrace();
+	      }
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return data;
-	}
+	      return row;
+	   }
 
 	public Vector print_sale_sum() {
 		Vector saledata = new Vector();
@@ -480,18 +514,17 @@ public class DB {
 
 	public boolean check_userseat(String m_id) { // 회원이 이미 이용중인 좌석이 있는지 확인
 		try {
+			flag1 = false;
 			Statement stm = conn.createStatement();
 			String sql = "select * from seat";
 			ResultSet rs = stm.executeQuery(sql);
-			while (rs.next()) {	
+			while (rs.next()) {
 				if (m_id.equals(rs.getString(2))) {
 					System.out.println("회원님은 이미 좌석을 사용중입니다.");
 					flag1 = true;
 					break;
 				} else {
 					System.out.println("회원님은 좌석을 미사용중입니다.");
-					flag1 = false;
-					break;
 				}
 			}
 		} catch (SQLException e) {
@@ -506,7 +539,7 @@ public class DB {
 			Statement stm = conn.createStatement();
 			String sql = "select * from confirmation";
 			ResultSet rs = stm.executeQuery(sql);
-			while(rs.next()) {
+			while (rs.next()) {
 				if (rs.getString(2).equals(m_id)) {
 					if (rs.getString(3).equals(0)) {
 						System.out.println("남은 시간이 없습니다.");
@@ -519,7 +552,7 @@ public class DB {
 					}
 				}
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -541,7 +574,7 @@ public class DB {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void update_seat(String seat) { // 선택한 좌석을 회원이름과 true값으로 바꾼다.
 		String sql = "update seat set m_id=null,status=0  where m_id=?";
 		try {
@@ -554,26 +587,58 @@ public class DB {
 			e.printStackTrace();
 		}
 	}
+
 	public String dbmail(String user_Id) {
-	      String confirmation;
-	      String email = null;
-	      try {
-	         Statement stm = conn.createStatement();
-	         String sql = "select members.id, members.email, confirmation.confirm_number from members, confirmation where members.id=confirmation.m_id;";
-	         ResultSet rs = stm.executeQuery(sql);
-	         while (rs.next()) {
-	            if (rs.getString(1).equals(user_Id)) {
-	               email = rs.getString(2);
-	               confirmation = rs.getString(3);
-	            }
-	         }
-	      } catch (SQLException e) {
-	         // TODO Auto-generated catch block
-	         e.printStackTrace();
-	      }
-	      return email;
+		String confirmation;
+		String email = null;
+		try {
+			Statement stm = conn.createStatement();
+			String sql = "select members.id, members.email, confirmation.confirm_number from members, confirmation where members.id=confirmation.m_id;";
+			ResultSet rs = stm.executeQuery(sql);
+			while (rs.next()) {
+				if (rs.getString(1).equals(user_Id)) {
+					email = rs.getString(2);
+					confirmation = rs.getString(3);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return email;
 
-	   }
+	}
+	
 
+	public String phone(String user_Id) {
+		String phone = null;
+		try {
+			Statement stm = conn.createStatement();
+			String sql = "select * from members";
+			ResultSet rs = stm.executeQuery(sql);
+			while (rs.next()) {
+				if (rs.getString(2).equals(user_Id)) {
+					phone = rs.getString(7);
+				}
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return phone;
+
+	}
+
+	public void delete_member(String m_id) {
+		String sql = "delete from members where m_id=?";
+		try {
+			PreparedStatement pmt = conn.prepareStatement(sql);
+			pmt.setString(1, m_id);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 }
