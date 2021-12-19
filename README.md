@@ -15,8 +15,8 @@
 * 프로젝트 흐름도
 <img width="604" alt="흐름도" src="https://user-images.githubusercontent.com/63954779/146668789-f47d7325-587a-47b2-9999-55e4511378ef.png">
 
-* 초기 화면<br>
-  * 초기 화면<br>
+* 초기 화면
+  * 메인 화면<br>
    <img width="349" alt="메인" src="https://user-images.githubusercontent.com/63954779/146668910-83664b96-12f9-443e-8873-503edc3d4646.png"><br><br>
    
 * 로그인 및 회원 가입
