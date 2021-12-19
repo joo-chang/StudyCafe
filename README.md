@@ -51,6 +51,12 @@
   * 요금 변경<br>
    <img width="298" alt="요금변경" src="https://user-images.githubusercontent.com/63954779/146668913-14fee4b8-bf2c-4d8b-a6a1-03cf7b4012aa.png"><br>
 -----------------
-   
+
+* ## 팀원 소개
+이름|연락처|이메일
+---|---|---|
+박윤영|010.6293.3317|dbsdud1025@naver.com
+박주창|010.3130.8644|jooc0311@naver.com
+김영빈|010.8421.9777|dudqls1441@naver.com
    
    
