@@ -19,8 +19,11 @@
 
 * 로그인 및 회원 가입
   * 회원 가입
+  * <img width="299" alt="회원가입" src="https://user-images.githubusercontent.com/63954779/146668924-a5029f98-3907-4630-88f5-217821b68e70.png">
   * 로그인
+  * <img width="292" alt="로그인" src="https://user-images.githubusercontent.com/63954779/146668902-3451a83e-7a51-47cb-837e-f2973afc8ba7.png">
   * 이메일 인증
+  * <img width="307" alt="이메일인증" src="https://user-images.githubusercontent.com/63954779/146668914-aff4f9a0-f552-4250-b5b5-3fa7d0130af7.png">
 * 시간 충전 
   * 시간 충전
   * 결제 후 문자 영수증 전송
