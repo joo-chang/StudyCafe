@@ -40,7 +40,7 @@
 * 채팅
   * 채팅 화면<br>
    <img width="298" alt="채팅" src="https://user-images.githubusercontent.com/63954779/146669119-b50e3194-296b-47a8-83d2-5121b6f4af58.png"><br>
-  * 귓속말 기능
+  * 귓속말 기능<br>
    <img width="307" alt="귓속말" src="https://user-images.githubusercontent.com/63954779/146669109-e6f051d6-1a73-4642-a288-20fcff01afb3.png"><br><br>
    
 * 관리자
