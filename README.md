@@ -16,8 +16,11 @@
 <img width="604" alt="흐름도" src="https://user-images.githubusercontent.com/63954779/146668789-f47d7325-587a-47b2-9999-55e4511378ef.png">
 
 * 초기 화면
+  * 초기 화면<br>
+   <img width="349" alt="메인" src="https://user-images.githubusercontent.com/63954779/146668910-83664b96-12f9-443e-8873-503edc3d4646.png"><br>
 
 * 로그인 및 회원 가입
+* ##
   * 회원 가입<br>
    <img width="299" alt="회원가입" src="https://user-images.githubusercontent.com/63954779/146668924-a5029f98-3907-4630-88f5-217821b68e70.png"> <br>
   * 로그인<br>
@@ -26,6 +29,7 @@
    <img width="307" alt="이메일인증" src="https://user-images.githubusercontent.com/63954779/146668914-aff4f9a0-f552-4250-b5b5-3fa7d0130af7.png"><br>
    
 * 시간 충전 
+* ##
   * 시간 충전<br>
    <img width="300" alt="충전" src="https://user-images.githubusercontent.com/63954779/146669018-e0b41bab-7c01-420c-81ad-d92313d5abfa.png"><br>
   * 결제 후 문자 영수증 전송<br>
